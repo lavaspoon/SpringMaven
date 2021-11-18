@@ -1,4 +1,4 @@
-package project.model;
+package project.Springplayground.model;
 
 import lombok.Getter;
 import lombok.Setter;
