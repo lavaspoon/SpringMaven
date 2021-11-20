@@ -47,15 +47,15 @@ public class UserProfileController {
     }
 
     //데이터 생성
-    @PutMapping("/user/{id}")
-    public void putUserProfile(@PathVariable("id") String id,
+    @PutMapping("/user/put")
+    public void putUserProfile(//@PathVariable("id") String id,
                                @RequestParam("name") String name,
                                @RequestParam("phone") String phone,
                                @RequestParam("address") String address)
     {
 //        UserProfile userProfile = new UserProfile(id,name,phone,address);
 //        userMap.put(id, userProfile);
-        mapper.insertUserProfile(id, name, phone, address);
+        mapper.insertUserProfile(name, phone, address);
     }
 
     //데이터 수정

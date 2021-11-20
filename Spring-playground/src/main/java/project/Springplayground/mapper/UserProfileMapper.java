@@ -16,8 +16,8 @@ public interface UserProfileMapper {
     List<UserProfile> getUserProfileList();
 
     //int 형 반환: 영향받은 레코드 수(1 인지 확인하여 정상적으로 처리됐는지 확인)
-    @Insert("INSERT INTO UserProfile VALUES(#{id}, #{name}, #{phone}, #{address})")
-    int insertUserProfile(@Param("id") String id,
+    @Insert("INSERT INTO UserProfile VALUES(null, #{name}, #{phone}, #{address})")
+    int insertUserProfile(//@Param("id") String id,
                        @Param("name") String name,
                        @Param("phone") String phone,
                        @Param("address") String address);
