@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.Springplayground.mapper.CompanyMapper;
 import project.Springplayground.model.Company;
+import project.Springplayground.service.CompanyService;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class CompanyController {
     @Autowired
     private CompanyMapper companyMapper;
 
+    @Autowired
+    private CompanyService companyService;
+
     @PostMapping("")
     public Company post(@RequestBody Company company) {
         companyMapper.insert(company);
@@ -22,7 +26,7 @@ public class CompanyController {
 
     @GetMapping("")
     public List<Company> getAll(){
-        return companyMapper.getAll();
+        return companyService.getAll();
     }
 
     @GetMapping("/{id}")

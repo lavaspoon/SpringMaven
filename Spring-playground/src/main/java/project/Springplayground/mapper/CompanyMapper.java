@@ -16,12 +16,15 @@ public interface CompanyMapper {
     //DB칼럼명과 구조체의 프로퍼티 이름이 서로 다른경우 매핑 해줘야함 (company_name != name)
     @Results(id="CompanyMap", value = {
             @Result(property = "name", column = "company_name"),
-            @Result(property = "address", column = "company_address")
+            @Result(property = "address", column = "company_address"),
+            //@Result(property = "employeeList", column = "id", many=@Many(select="project.Springplayground.mapper.EmployeeMapper.getByCompanyId"))
     })
     List<Company> getAll();
 
     @Select("SELECT * FROM company where id = #{id}")
     @ResultMap("CompanyMap")
     Company getById(@Param("id") int id);
+
+
 }
 
