@@ -27,10 +27,17 @@ public class BasicController {
     @PostMapping("/joinForm")
     public String addUser(@RequestParam String name,
                           @RequestParam String phone,
-                          @RequestParam String address)
+                          @RequestParam String address,
+                          Model model)
     {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setName(name);
+        userProfile.setPhone(phone);
+        userProfile.setAddress(address);
+
         mapper.insertUserProfile(name, phone, address);
-        return "searchUser";
+        model.addAttribute("userProfile",userProfile);
+        return "basic/User";
     }
 
     //회원 전체 조회

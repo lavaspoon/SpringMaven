@@ -17,4 +17,7 @@ public class UserProfile {
         this.phone = phone;
         this.address = address;
     }
+
+    public UserProfile() {
+    }
 }
