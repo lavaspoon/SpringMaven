@@ -1,13 +1,19 @@
 package project.Springplayground.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import project.Springplayground.mapper.UserProfileMapper;
 import project.Springplayground.model.UserProfile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/basic")
 public class BasicController {
@@ -20,7 +26,9 @@ public class BasicController {
 
     //회원가입
     @GetMapping("/joinForm")
-    public String addForm(){
+    public String addForm(Model model){
+        //타임리프로 값을 불러오기 때문에 빈값을 넘겨줘야함
+        model.addAttribute("userProfile", new UserProfile());
         return "/basic/joinForm";
     }
 
@@ -34,10 +42,34 @@ public class BasicController {
         userProfile.setName(name);
         userProfile.setPhone(phone);
         userProfile.setAddress(address);
-
-        mapper.insertUserProfile(name, phone, address);
         model.addAttribute("userProfile",userProfile);
-        return "basic/User";
+
+        //검증 오류 결과를 보관
+        Map<String, String> errors = new HashMap<>();
+        //검증x 로직
+        if(!StringUtils.hasText(userProfile.getName())){
+            errors.put("nameError", "이름은 필수 값 입니다.");
+        }
+        if(!StringUtils.hasText(userProfile.getPhone())){
+            errors.put("phoneError", "핸드폰 번호는 필수 값 입니다.");
+        }
+        if(!StringUtils.hasText(userProfile.getAddress())){
+            errors.put("addressError", "주소는 필수 값 입니다.");
+        }
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(!errors.isEmpty()){
+            log.info("errors = {}", errors);
+            model.addAttribute("errors",errors);
+            //중요
+            return "/basic/joinForm";
+        }
+
+        //성공 로직
+        mapper.insertUserProfile(name, phone, address);
+        return "/basic/User";
+        //redirectAttributes.addAttribute("userId",userProfile.getId()); getId 모름
+        //return "redirect:/basic/User/{userId}";
     }
 
     //회원 전체 조회
