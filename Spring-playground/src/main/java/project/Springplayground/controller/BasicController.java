@@ -1,10 +1,13 @@
 package project.Springplayground.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import project.Springplayground.mapper.UserProfileMapper;
 import project.Springplayground.model.UserProfile;
@@ -70,6 +73,39 @@ public class BasicController {
         return "/basic/User";
         //redirectAttributes.addAttribute("userId",userProfile.getId()); getId 모름
         //return "redirect:/basic/User/{userId}";
+    }
+
+//    @PostMapping("/joinForm")
+    public String addUserV2(@RequestParam String name,
+                            @RequestParam String phone,
+                            @RequestParam String address,
+                            BindingResult bindingResult,
+                            Model model)
+    {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setName(name);
+        userProfile.setName(phone);
+        userProfile.setName(address);
+        model.addAttribute("userProfile", userProfile);
+
+        if(!StringUtils.hasText(userProfile.getName())){
+            bindingResult.addError(new FieldError("userProfile","name","이름은 필수 값 입니다."));
+        }
+        if(!StringUtils.hasText(userProfile.getPhone())){
+            bindingResult.addError(new FieldError("userProfile","phone","핸드폰은 필수 값 입니다."));
+        }
+        if(!StringUtils.hasText(userProfile.getAddress())){
+            bindingResult.addError(new FieldError("userProfile","address","주소는 필수 값 입니다."));
+        }
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            return "/basic/joinForm";
+        }
+
+        mapper.insertUserProfile(name, phone, address);
+        return "/basic/User";
     }
 
     //회원 전체 조회

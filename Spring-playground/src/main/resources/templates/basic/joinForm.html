@@ -22,38 +22,36 @@
     <h4 class="mb-3">정보 입력</h4>
     <form action="index.html" th:action method="post">
 
-        <div th:if="${errors?.containsKey('phoneError')}">
-            <p class="field-error" th:text="${errors['phoneError']}">전체 오류 메세지 </p>
-        </div>
+
 
         <div>
             <label for="name">이름</label>
-            <input type="text" id="name" name="name"
+            <input type="text" id="name" name="name" th:field="*{userProfile.name}"
                    th:value="${userProfile.getName()}"
-                   th:class="${errors?.containsKey('nameError')} ? 'form-control field-error' : 'form-control'"
+                   th:errorclass="field-error"
                    class="form-control" placeholder="이름을 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('nameError')}" th:text="${errors['nameError']}">
+            <div class="field-error" th:errors="*{userProfile.name}">
                 상품명 오류
             </div>
         </div>
         <div>
             <label for="phone">핸드폰번호</label>
-            <input type="text" id="phone" name="phone"
+            <input type="text" id="phone" name="phone" th:field="*{userProfile.phone}"
                    th:value="${userProfile.getPhone()}"
-                   th:class="${errors?.containsKey('phoneError')} ? 'form-control field-error' : 'form-control'"
+                   th:errorclass="field-error"
                    class="form-control"
                    placeholder="핸드폰번호를 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('phoneError')}" th:text="${errors['phoneError']}">
+            <div class="field-error" th:errors="*{userProfile.phone}">
                 핸드폰 오류
             </div>
         </div>
         <div>
             <label for="address">주소</label>
-            <input type="text" id="address" name="address"
-                   th:class="${errors?.containsKey('addressError')} ? 'form-control field-error' : 'form-control'"
+            <input type="text" id="address" name="address" th:field="*{userProfile.address}"
                    th:value="${userProfile.getAddress()}"
+                   th:errorclass="field-error"
                    class="form-control" placeholder="주소를 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('addressError')}" th:text="${errors['addressError']}">
+            <div class="field-error" th:errors="*{userProfile.address}">
                 주소 오류
             </div>
         </div>
