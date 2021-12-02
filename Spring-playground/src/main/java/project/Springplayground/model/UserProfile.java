@@ -10,12 +10,14 @@ public class UserProfile {
     private String name;
     private String phone;
     private String address;
+    private Integer point;
 
-    public UserProfile(String id, String name, String phone, String address) {
+    public UserProfile(String id, String name, String phone, String address, Integer point) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.address = address;
+        this.point = point;
     }
 
     public UserProfile() {

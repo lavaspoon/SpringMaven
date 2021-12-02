@@ -5,6 +5,7 @@ import project.Springplayground.mapper.UserProfileMapper;
 import project.Springplayground.model.UserProfile;
 
 import javax.annotation.PostConstruct;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +52,12 @@ public class UserProfileController {
     public void putUserProfile(//@PathVariable("id") String id,
                                @RequestParam("name") String name,
                                @RequestParam("phone") String phone,
-                               @RequestParam("address") String address)
+                               @RequestParam("address") String address,
+                               @RequestParam("point") Integer point)
     {
 //        UserProfile userProfile = new UserProfile(id,name,phone,address);
 //        userMap.put(id, userProfile);
-        mapper.insertUserProfile(name, phone, address);
+        mapper.insertUserProfile(name, phone, address, point);
     }
 
     //데이터 수정
@@ -63,13 +65,14 @@ public class UserProfileController {
     public void postUserProfile(@PathVariable("id") String id,
                                 @RequestParam("name") String name,
                                 @RequestParam("phone") String phone,
-                                @RequestParam("address") String address)
+                                @RequestParam("address") String address,
+                                @RequestParam("point") Integer point)
     {
 //        UserProfile userProfile = userMap.get(id);
 //        userProfile.setName(name);
 //        userProfile.setPhone(phone);
 //        userProfile.setAddress(address);
-        mapper.updateUserProfile(id, name, phone, address);
+        mapper.updateUserProfile(id, name, phone, address, point);
     }
 
     @DeleteMapping("/user/{id}")

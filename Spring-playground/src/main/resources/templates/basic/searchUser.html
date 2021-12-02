@@ -28,6 +28,7 @@
                 <th>이름</th>
                 <th>핸드폰번호</th>
                 <th>주소</th>
+                <th>포인트</th>
             </tr>
             </thead>
             <tr th:each="item : ${items}">
@@ -35,6 +36,7 @@
                 <td th:text="${item.name}">상품명</td>
                 <td th:text="${item.phone}">000-0000-0000</td>
                 <td th:text="${item.address}">대전시</td>
+                <td th:text="${item.point}">대전시</td>
             </tr>
         </table>
     </div>

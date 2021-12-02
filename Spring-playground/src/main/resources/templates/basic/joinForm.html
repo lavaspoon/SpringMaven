@@ -21,9 +21,6 @@
     </div>
     <h4 class="mb-3">정보 입력</h4>
     <form action="index.html" th:action method="post">
-
-
-
         <div>
             <label for="name">이름</label>
             <input type="text" id="name" name="name" th:field="*{userProfile.name}"
@@ -53,6 +50,16 @@
                    class="form-control" placeholder="주소를 입력하세요">
             <div class="field-error" th:errors="*{userProfile.address}">
                 주소 오류
+            </div>
+        </div>
+        <div>
+            <label for="point">포인트</label>
+            <input type="text" id="point" name="point" th:field="*{userProfile.point}"
+                   th:value="${userProfile.getPoint()}"
+                   th:errorclass="field-error"
+                   class="form-control" placeholder="포인트를 입력하세요">
+            <div class="field-error" th:errors="*{userProfile.point}">
+                포인트 오류
             </div>
         </div>
         <hr class="my-4">

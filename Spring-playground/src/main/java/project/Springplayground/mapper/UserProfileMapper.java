@@ -16,17 +16,19 @@ public interface UserProfileMapper {
     List<UserProfile> getUserProfileList();
 
     //int 형 반환: 영향받은 레코드 수(1 인지 확인하여 정상적으로 처리됐는지 확인)
-    @Insert("INSERT INTO UserProfile VALUES(null, #{name}, #{phone}, #{address})")
+    @Insert("INSERT INTO UserProfile VALUES(null, #{name}, #{phone}, #{address}, #{point})")
     int insertUserProfile(//@Param("id") String id,
                        @Param("name") String name,
                        @Param("phone") String phone,
-                       @Param("address") String address);
+                       @Param("address") String address,
+                          @Param("point") Integer point);
 
-    @Update("UPDATE UserProfile SET name=#{name}, phone=#{phone}, address=#{address} where id=#{id}")
+    @Update("UPDATE UserProfile SET name=#{name}, phone=#{phone}, address=#{address}, point=#{point} where id=#{id}")
     int updateUserProfile(@Param("id") String id,
-                        @Param("name") String name,
-                        @Param("phone") String phone,
-                        @Param("address") String address);
+                          @Param("name") String name,
+                          @Param("phone") String phone,
+                          @Param("address") String address,
+                          @Param("point") Integer point);
 
     @Delete("DELETE FROM UserProfile WHERE id=#{id}")
     int deleteUserProfile(@Param("id") String id);

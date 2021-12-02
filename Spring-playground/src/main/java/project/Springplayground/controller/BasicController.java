@@ -39,12 +39,14 @@ public class BasicController {
     public String addUser(@RequestParam String name,
                           @RequestParam String phone,
                           @RequestParam String address,
+                          @RequestParam Integer point,
                           Model model)
     {
         UserProfile userProfile = new UserProfile();
         userProfile.setName(name);
         userProfile.setPhone(phone);
         userProfile.setAddress(address);
+        userProfile.setPoint(point);
         model.addAttribute("userProfile",userProfile);
 
         //검증 오류 결과를 보관
@@ -59,6 +61,9 @@ public class BasicController {
         if(!StringUtils.hasText(userProfile.getAddress())){
             errors.put("addressError", "주소는 필수 값 입니다.");
         }
+        if(userProfile.getPoint() == null || userProfile.getPoint() == 0){
+            errors.put("pointError", "포인트 필수 값 입니다.");
+        }
 
         //검증에 실패하면 다시 입력 폼으로
         if(!errors.isEmpty()){
@@ -69,7 +74,7 @@ public class BasicController {
         }
 
         //성공 로직
-        mapper.insertUserProfile(name, phone, address);
+        mapper.insertUserProfile(name, phone, address, point);
         return "/basic/User";
         //redirectAttributes.addAttribute("userId",userProfile.getId()); getId 모름
         //return "redirect:/basic/User/{userId}";
@@ -79,6 +84,7 @@ public class BasicController {
     public String addUserV2(@RequestParam String name,
                             @RequestParam String phone,
                             @RequestParam String address,
+                            @RequestParam Integer point,
                             BindingResult bindingResult,
                             Model model)
     {
@@ -86,6 +92,7 @@ public class BasicController {
         userProfile.setName(name);
         userProfile.setName(phone);
         userProfile.setName(address);
+        userProfile.setPoint(point);
         model.addAttribute("userProfile", userProfile);
 
         if(!StringUtils.hasText(userProfile.getName())){
@@ -104,7 +111,7 @@ public class BasicController {
             return "/basic/joinForm";
         }
 
-        mapper.insertUserProfile(name, phone, address);
+        mapper.insertUserProfile(name, phone, address, point);
         return "/basic/User";
     }
 
