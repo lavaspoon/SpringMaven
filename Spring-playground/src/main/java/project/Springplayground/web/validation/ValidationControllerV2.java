@@ -1,13 +1,9 @@
-package project.Springplayground.controller;
+package project.Springplayground.web.validation;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import project.Springplayground.mapper.UserProfileMapper;
 import project.Springplayground.model.UserProfile;
@@ -18,12 +14,12 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/basic")
-public class BasicController {
+@RequestMapping("/validation/v2")
+public class ValidationControllerV2 {
 
     private UserProfileMapper mapper;
 
-    public BasicController(UserProfileMapper mapper) {
+    public ValidationControllerV2(UserProfileMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -32,7 +28,7 @@ public class BasicController {
     public String addForm(Model model){
         //타임리프로 값을 불러오기 때문에 빈값을 넘겨줘야함
         model.addAttribute("userProfile", new UserProfile());
-        return "/basic/joinForm";
+        return "/validation/v2/joinForm";
     }
 
     @PostMapping("/joinForm")
@@ -70,12 +66,12 @@ public class BasicController {
             log.info("errors = {}", errors);
             model.addAttribute("errors",errors);
             //중요
-            return "/basic/joinForm";
+            return "/validation/v2/joinForm";
         }
 
         //성공 로직
         mapper.insertUserProfile(name, phone, address, point);
-        return "/basic/User";
+        return "/validation/v2/User";
         //redirectAttributes.addAttribute("userId",userProfile.getId()); getId 모름
         //return "redirect:/basic/User/{userId}";
     }
@@ -85,14 +81,14 @@ public class BasicController {
     public String searchUser(Model model){
         List<UserProfile> userProfileList = mapper.getUserProfileList();
         model.addAttribute("items", userProfileList);
-        return "basic/searchUser";
+        return "/validation/v2/searchUser";
     }
     //회원 상세 조회
     @GetMapping("/items/{id}")
     public String item(@PathVariable String id, Model model) {
         UserProfile userProfile = mapper.getUserProfile(id);
         model.addAttribute("item", userProfile);
-        return "basic/userInform";
+        return "/validation/v2/userInform";
     }
 
 }
