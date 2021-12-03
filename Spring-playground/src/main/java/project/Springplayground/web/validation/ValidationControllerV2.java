@@ -1,27 +1,25 @@
 package project.Springplayground.web.validation;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import project.Springplayground.mapper.UserProfileMapper;
 import project.Springplayground.model.UserProfile;
+import project.Springplayground.model.UserProfileRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/validation/v2")
 public class ValidationControllerV2 {
 
-    private UserProfileMapper mapper;
-
-    public ValidationControllerV2(UserProfileMapper mapper) {
-        this.mapper = mapper;
-    }
+    private final UserProfileRepository userProfileRepository;
 
     //회원가입
     @GetMapping("/joinForm")
@@ -32,61 +30,47 @@ public class ValidationControllerV2 {
     }
 
     @PostMapping("/joinForm")
-    public String addUser(@RequestParam String name,
-                          @RequestParam String phone,
-                          @RequestParam String address,
-                          @RequestParam(required = false) Integer point,
+    public String addUser1(@ModelAttribute UserProfile userProfile,
+                          BindingResult bindingResult,
                           Model model)
     {
-        UserProfile userProfile = new UserProfile();
-        userProfile.setName(name);
-        userProfile.setPhone(phone);
-        userProfile.setAddress(address);
-        userProfile.setPoint(point);
-        model.addAttribute("userProfile",userProfile);
-
-        //검증 오류 결과를 보관
-        Map<String, String> errors = new HashMap<>();
         //검증 로직
         if(!StringUtils.hasText(userProfile.getName())){
-            errors.put("nameError", "이름은 필수 값 입니다.");
+            bindingResult.addError(new FieldError("userProfile", "name", "이름을 입력해주세요."));
         }
         if(!StringUtils.hasText(userProfile.getPhone())){
-            errors.put("phoneError", "핸드폰 번호는 필수 값 입니다.");
+            bindingResult.addError(new FieldError("userProfile", "phone", "핸드폰번호를 입력해주세요."));
         }
         if(!StringUtils.hasText(userProfile.getAddress())){
-            errors.put("addressError", "주소는 필수 값 입니다.");
+            bindingResult.addError(new FieldError("userProfile", "address", "주소를 입력해주세요."));
         }
         if(userProfile.getPoint() == null || userProfile.getPoint() < 1000 || userProfile.getPoint() > 1000000){
-            errors.put("pointError", "포인트는 최소 1000, 1,000,000 입니다.");
+            bindingResult.addError(new FieldError("userProfile", "point", "포인트는 최소 1000, 1,000,000 미만으로 입력해주세요."));
         }
 
         //검증에 실패하면 다시 입력 폼으로
-        if(!errors.isEmpty()){
-            log.info("errors = {}", errors);
-            model.addAttribute("errors",errors);
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
             //중요
             return "/validation/v2/joinForm";
         }
 
         //성공 로직
-        mapper.insertUserProfile(name, phone, address, point);
+        userProfileRepository.save(userProfile);
         return "/validation/v2/User";
-        //redirectAttributes.addAttribute("userId",userProfile.getId()); getId 모름
-        //return "redirect:/basic/User/{userId}";
     }
 
     //회원 전체 조회
     @GetMapping("/searchUser")
     public String searchUser(Model model){
-        List<UserProfile> userProfileList = mapper.getUserProfileList();
-        model.addAttribute("items", userProfileList);
+        List<UserProfile> userProfile = userProfileRepository.findAll();
+        model.addAttribute("items", userProfile);
         return "/validation/v2/searchUser";
     }
     //회원 상세 조회
     @GetMapping("/items/{id}")
-    public String item(@PathVariable String id, Model model) {
-        UserProfile userProfile = mapper.getUserProfile(id);
+    public String item(@PathVariable Long id, Model model) {
+        UserProfile userProfile = userProfileRepository.findById(id);
         model.addAttribute("item", userProfile);
         return "/validation/v2/userInform";
     }
