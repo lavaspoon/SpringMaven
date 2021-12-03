@@ -25,10 +25,10 @@
             <label for="name">이름</label>
             <input type="text" id="name" name="name" th:field="*{userProfile.name}"
                    th:value="${userProfile.getName()}"
-                   th:errorclass="field-error"
+                   th:class="${errors?.containsKey('userProfile.name')} ? 'form-control field-error' : 'form-control'"
                    class="form-control" placeholder="이름을 입력하세요">
-            <div class="field-error" th:errors="*{userProfile.name}">
-                상품명 오류
+            <div class="field-error" th:if="${errors?.containsKey('userProfile.name')}" th:text="${errors['nameError']}">
+                이름 오류
             </div>
         </div>
         <div>

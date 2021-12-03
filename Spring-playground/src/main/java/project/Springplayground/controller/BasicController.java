@@ -39,7 +39,7 @@ public class BasicController {
     public String addUser(@RequestParam String name,
                           @RequestParam String phone,
                           @RequestParam String address,
-                          @RequestParam Integer point,
+                          @RequestParam(required = false) Integer point,
                           Model model)
     {
         UserProfile userProfile = new UserProfile();
@@ -51,7 +51,7 @@ public class BasicController {
 
         //검증 오류 결과를 보관
         Map<String, String> errors = new HashMap<>();
-        //검증x 로직
+        //검증 로직
         if(!StringUtils.hasText(userProfile.getName())){
             errors.put("nameError", "이름은 필수 값 입니다.");
         }
@@ -61,8 +61,8 @@ public class BasicController {
         if(!StringUtils.hasText(userProfile.getAddress())){
             errors.put("addressError", "주소는 필수 값 입니다.");
         }
-        if(userProfile.getPoint() == null || userProfile.getPoint() == 0){
-            errors.put("pointError", "포인트 필수 값 입니다.");
+        if(userProfile.getPoint() == null || userProfile.getPoint() < 1000 || userProfile.getPoint() > 1000000){
+            errors.put("pointError", "포인트는 최소 1000, 1,000,000 입니다.");
         }
 
         //검증에 실패하면 다시 입력 폼으로
