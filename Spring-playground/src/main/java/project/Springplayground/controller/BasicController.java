@@ -80,41 +80,6 @@ public class BasicController {
         //return "redirect:/basic/User/{userId}";
     }
 
-//    @PostMapping("/joinForm")
-    public String addUserV2(@RequestParam String name,
-                            @RequestParam String phone,
-                            @RequestParam String address,
-                            @RequestParam Integer point,
-                            BindingResult bindingResult,
-                            Model model)
-    {
-        UserProfile userProfile = new UserProfile();
-        userProfile.setName(name);
-        userProfile.setName(phone);
-        userProfile.setName(address);
-        userProfile.setPoint(point);
-        model.addAttribute("userProfile", userProfile);
-
-        if(!StringUtils.hasText(userProfile.getName())){
-            bindingResult.addError(new FieldError("userProfile","name","이름은 필수 값 입니다."));
-        }
-        if(!StringUtils.hasText(userProfile.getPhone())){
-            bindingResult.addError(new FieldError("userProfile","phone","핸드폰은 필수 값 입니다."));
-        }
-        if(!StringUtils.hasText(userProfile.getAddress())){
-            bindingResult.addError(new FieldError("userProfile","address","주소는 필수 값 입니다."));
-        }
-
-        //검증에 실패하면 다시 입력 폼으로
-        if(bindingResult.hasErrors()){
-            log.info("errors = {}", bindingResult);
-            return "/basic/joinForm";
-        }
-
-        mapper.insertUserProfile(name, phone, address, point);
-        return "/basic/User";
-    }
-
     //회원 전체 조회
     @GetMapping("/searchUser")
     public String searchUser(Model model){
