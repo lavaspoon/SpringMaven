@@ -29,7 +29,7 @@ public class ValidationControllerV2 {
         return "/validation/v2/joinForm";
     }
 
-    @PostMapping("/joinForm")
+    //@PostMapping("/joinForm")
     public String addUser1(@ModelAttribute UserProfile userProfile,
                           BindingResult bindingResult,
                           Model model)
@@ -60,6 +60,36 @@ public class ValidationControllerV2 {
         return "/validation/v2/User";
     }
 
+    @PostMapping("/joinForm")
+    public String addUser2(@ModelAttribute UserProfile userProfile,
+                           BindingResult bindingResult,
+                           Model model)
+    {
+        //검증 로직
+        if(!StringUtils.hasText(userProfile.getName())){
+            bindingResult.addError(new FieldError("userProfile", "name", userProfile.getName(), false, null, null,"이름을 입력해주세요."));
+        }
+        if(!StringUtils.hasText(userProfile.getPhone())){
+            bindingResult.addError(new FieldError("userProfile", "phone", userProfile.getPhone(), false, null, null,"핸드폰번호를 입력해주세요."));
+        }
+        if(!StringUtils.hasText(userProfile.getAddress())){
+            bindingResult.addError(new FieldError("userProfile", "address", userProfile.getAddress(), false, null, null,"주소를 입력해주세요."));
+        }
+        if(userProfile.getPoint() == null || userProfile.getPoint() < 1000 || userProfile.getPoint() > 1000000){
+            bindingResult.addError(new FieldError("userProfile", "point", userProfile.getPoint(), false, null, null,"포인트는 최소 1000, 1,000,000 미만으로 입력해주세요."));
+        }
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            //중요
+            return "/validation/v2/joinForm";
+        }
+
+        //성공 로직
+        userProfileRepository.save(userProfile);
+        return "/validation/v2/User";
+    }
     //회원 전체 조회
     @GetMapping("/searchUser")
     public String searchUser(Model model){
