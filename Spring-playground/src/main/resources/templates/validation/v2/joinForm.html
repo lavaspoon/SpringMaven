@@ -17,13 +17,13 @@
 <body>
 <div class="container">
     <div class="py-5 text-center">
-        <h2>회원가입</h2>
+        <h2 th:text="#{page.addUser}">회원가입</h2>
     </div>
 
     <h4 class="mb-3">정보 입력</h4>
     <form action="index.html" th:action th:object="${userProfile}" method="post">
         <div>
-            <label for="name">이름</label>
+            <label for="name" th:text="#{label.userProfile.name}">이름</label>
             <input type="text" id="name" th:field="*{name}"
                    th:errorclass="field-error"
                    class="form-control" placeholder="이름을 입력하세요">
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div>
-            <label for="phone">핸드폰번호</label>
+            <label for="phone" th:text="#{label.userProfile.phone}">핸드폰번호</label>
             <input type="text" id="phone" th:field="*{phone}"
                    th:errorclass="field-error"
                    class="form-control" placeholder="핸드폰번호를 입력하세요">
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div>
-            <label for="address">주소</label>
+            <label for="address" th:text="#{label.userProfile.address}">주소</label>
             <input type="text" id="address" th:field="*{address}"
                    th:errorclass="field-error"
                    class="form-control" placeholder="주소를 입력하세요">
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div>
-            <label for="point">포인트</label>
+            <label for="point" th:text="#{label.userProfile.point}">포인트</label>
             <input type="text" id="point" th:field="*{point}"
                    th:errorclass="field-error"
                    class="form-control" placeholder="포인트를 입력하세요">
@@ -62,13 +62,13 @@
         <hr class="my-4">
         <div class="row">
             <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">회원 가입</button>
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">회원 가입</button>
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='index.html'"
                         th:onclick="|location.href='@{/index.html}'|"
-                        type="button">취소
+                        type="button" th:text="#{button.cancel}">취소
                 </button>
             </div>
         </div>

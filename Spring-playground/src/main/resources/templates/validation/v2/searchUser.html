@@ -9,14 +9,14 @@
 
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
-        <h2>회원 관리</h2>
+        <h2 th:text="#{page.users}">회원 관리</h2>
     </div>
     <div class="row">
         <div class="col">
             <button class="btn btn-primary float-end"
                     onclick="location.href='addForm.html'"
                     th:onclick="|location.href='/index.html'|"
-                    type="button">홈으로</button>
+                    page.users>홈으로</button>
         </div>
     </div>
     <hr class="my-4">

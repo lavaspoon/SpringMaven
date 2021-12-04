@@ -60,7 +60,7 @@ public class ValidationControllerV2 {
         return "/validation/v2/User";
     }
 
-    @PostMapping("/joinForm")
+    //@PostMapping("/joinForm")
     public String addUser2(@ModelAttribute UserProfile userProfile,
                            BindingResult bindingResult,
                            Model model)
@@ -77,6 +77,37 @@ public class ValidationControllerV2 {
         }
         if(userProfile.getPoint() == null || userProfile.getPoint() < 1000 || userProfile.getPoint() > 1000000){
             bindingResult.addError(new FieldError("userProfile", "point", userProfile.getPoint(), false, null, null,"포인트는 최소 1000, 1,000,000 미만으로 입력해주세요."));
+        }
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            //중요
+            return "/validation/v2/joinForm";
+        }
+
+        //성공 로직
+        userProfileRepository.save(userProfile);
+        return "/validation/v2/User";
+    }
+
+    @PostMapping("/joinForm")
+    public String addUser3(@ModelAttribute UserProfile userProfile,
+                           BindingResult bindingResult,
+                           Model model)
+    {
+        //검증 로직
+        if(!StringUtils.hasText(userProfile.getName())){
+            bindingResult.addError(new FieldError("userProfile", "name", userProfile.getName(), false, new String[]{"required.userProfile.name"}, null,null));
+        }
+        if(!StringUtils.hasText(userProfile.getPhone())){
+            bindingResult.addError(new FieldError("userProfile", "phone", userProfile.getPhone(), false, new String[]{"required.userProfile.phone"}, null,null));
+        }
+        if(!StringUtils.hasText(userProfile.getAddress())){
+            bindingResult.addError(new FieldError("userProfile", "address", userProfile.getAddress(), false, new String[]{"required.userProfile.address"}, null,null));
+        }
+        if(userProfile.getPoint() == null || userProfile.getPoint() < 1000 || userProfile.getPoint() > 1000000){
+            bindingResult.addError(new FieldError("userProfile", "point", userProfile.getPoint(), false, new String[]{"range.userProfile.point"}, new Object[]{1000, 1000000},null));
         }
 
         //검증에 실패하면 다시 입력 폼으로
