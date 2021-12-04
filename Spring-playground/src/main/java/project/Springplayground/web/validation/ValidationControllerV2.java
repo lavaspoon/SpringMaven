@@ -91,11 +91,13 @@ public class ValidationControllerV2 {
         return "/validation/v2/User";
     }
 
-    @PostMapping("/joinForm")
+    //@PostMapping("/joinForm")
     public String addUser3(@ModelAttribute UserProfile userProfile,
                            BindingResult bindingResult,
                            Model model)
     {
+        log.info("objectName={}", bindingResult.getObjectName());
+        log.info("target={}", bindingResult.getTarget());
         //검증 로직
         if(!StringUtils.hasText(userProfile.getName())){
             bindingResult.addError(new FieldError("userProfile", "name", userProfile.getName(), false, new String[]{"required.userProfile.name"}, null,null));
@@ -121,6 +123,40 @@ public class ValidationControllerV2 {
         userProfileRepository.save(userProfile);
         return "/validation/v2/User";
     }
+
+    @PostMapping("/joinForm")
+    public String addUser4(@ModelAttribute UserProfile userProfile,
+                           BindingResult bindingResult,
+                           Model model)
+    {
+        log.info("objectName={}", bindingResult.getObjectName());
+        log.info("target={}", bindingResult.getTarget());
+        //검증 로직
+        if(!StringUtils.hasText(userProfile.getName())){
+            bindingResult.rejectValue("name", "required");
+        }
+        if(!StringUtils.hasText(userProfile.getPhone())){
+            bindingResult.rejectValue("phone", "required");
+        }
+        if(!StringUtils.hasText(userProfile.getAddress())){
+            bindingResult.rejectValue("address", "required");
+        }
+        if(userProfile.getPoint() == null || userProfile.getPoint() < 1000 || userProfile.getPoint() > 1000000){
+            bindingResult.rejectValue("point", "range", new Object[]{1000,1000000}, null);
+        }
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            //중요
+            return "/validation/v2/joinForm";
+        }
+
+        //성공 로직
+        userProfileRepository.save(userProfile);
+        return "/validation/v2/User";
+    }
+
     //회원 전체 조회
     @GetMapping("/searchUser")
     public String searchUser(Model model){
