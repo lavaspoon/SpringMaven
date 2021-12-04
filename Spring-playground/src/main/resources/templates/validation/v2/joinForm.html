@@ -25,36 +25,36 @@
         <div>
             <label for="name">이름</label>
             <input type="text" id="name" th:field="*{name}"
-                   th:class="${errors?.containsKey('nameError')} ? 'form-control field-error' : 'form-control'"
+                   th:errorclass="field-error"
                    class="form-control" placeholder="이름을 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('nameError')}" th:text="${errors['nameError']}">
+            <div class="field-error" th:errors="*{name}">
                 이름 오류
             </div>
         </div>
         <div>
             <label for="phone">핸드폰번호</label>
             <input type="text" id="phone" th:field="*{phone}"
-                   th:class="${errors?.containsKey('phoneError')} ? 'form-control field-error' : 'form-control'"
+                   th:errorclass="field-error"
                    class="form-control" placeholder="핸드폰번호를 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('phoneError')}" th:text="${errors['phoneError']}">
+            <div class="field-error" th:errors="*{phone}">
                 핸드폰 오류
             </div>
         </div>
         <div>
             <label for="address">주소</label>
             <input type="text" id="address" th:field="*{address}"
-                   th:class="${errors?.containsKey('addressError')} ? 'form-control field-error' : 'form-control'"
+                   th:errorclass="field-error"
                    class="form-control" placeholder="주소를 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('addressError')}" th:text="${errors['addressError']}">
+            <div class="field-error" th:errors="*{address}">
                 주소 오류
             </div>
         </div>
         <div>
             <label for="point">포인트</label>
             <input type="text" id="point" th:field="*{point}"
-                   th:class="${errors?.containsKey('pointError')} ? 'form-control field-error' : 'form-control'"
+                   th:errorclass="field-error"
                    class="form-control" placeholder="포인트를 입력하세요">
-            <div class="field-error" th:if="${errors?.containsKey('pointError')}" th:text="${errors['pointError']}">
+            <div class="field-error" th:errors="*{point}">
                 포인트 오류
             </div>
         </div>
