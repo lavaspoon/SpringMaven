@@ -2,11 +2,14 @@ package project.Springplayground.web.validation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import project.Springplayground.model.UserProfile;
 import project.Springplayground.model.UserProfileRepository;
@@ -19,8 +22,14 @@ import java.util.List;
 @RequestMapping("/validation/v2")
 public class ValidationControllerV2 {
 
+    //스프링에서 빈 주입
     private final UserProfileRepository userProfileRepository;
+    private final UserProfileValidator userProfileValidator;
 
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(userProfileValidator);
+    }
     //회원가입
     @GetMapping("/joinForm")
     public String addForm(Model model){
@@ -124,7 +133,7 @@ public class ValidationControllerV2 {
         return "/validation/v2/User";
     }
 
-    @PostMapping("/joinForm")
+    //@PostMapping("/joinForm")
     public String addUser4(@ModelAttribute UserProfile userProfile,
                            BindingResult bindingResult,
                            Model model)
@@ -145,6 +154,43 @@ public class ValidationControllerV2 {
             bindingResult.rejectValue("point", "range", new Object[]{1000,1000000}, null);
         }
 
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            //중요
+            return "/validation/v2/joinForm";
+        }
+
+        //성공 로직
+        userProfileRepository.save(userProfile);
+        return "/validation/v2/User";
+    }
+
+    //@PostMapping("/joinForm")
+    public String addUser5(@ModelAttribute UserProfile userProfile,
+                           BindingResult bindingResult,
+                           Model model)
+    {
+        userProfileValidator.validate(userProfile, bindingResult);
+
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            //중요
+            return "/validation/v2/joinForm";
+        }
+
+        //성공 로직
+        userProfileRepository.save(userProfile);
+        return "/validation/v2/User";
+    }
+
+    @PostMapping("/joinForm")
+    public String addUser6(@Validated @ModelAttribute UserProfile userProfile,
+                           BindingResult bindingResult,
+                           Model model)
+    {
         //검증에 실패하면 다시 입력 폼으로
         if(bindingResult.hasErrors()){
             log.info("errors = {}", bindingResult);
