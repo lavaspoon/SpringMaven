@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link
+          href="../../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color : #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.addUser}">회원가입</h2>
+    </div>
+
+    <h4 class="mb-3">정보 입력</h4>
+    <form action="index.html" th:action th:object="${userProfile}" method="post">
+        <div>
+            <label for="name" th:text="#{label.userProfile.name}">이름</label>
+            <input type="text" id="name" th:field="*{name}"
+                   th:errorclass="field-error"
+                   class="form-control" placeholder="이름을 입력하세요">
+            <div class="field-error" th:errors="*{name}">
+                이름 오류
+            </div>
+        </div>
+        <div>
+            <label for="phone" th:text="#{label.userProfile.phone}">핸드폰번호</label>
+            <input type="text" id="phone" th:field="*{phone}"
+                   th:errorclass="field-error"
+                   class="form-control" placeholder="핸드폰번호를 입력하세요">
+            <div class="field-error" th:errors="*{phone}">
+                핸드폰 오류
+            </div>
+        </div>
+        <div>
+            <label for="address" th:text="#{label.userProfile.address}">주소</label>
+            <input type="text" id="address" th:field="*{address}"
+                   th:errorclass="field-error"
+                   class="form-control" placeholder="주소를 입력하세요">
+            <div class="field-error" th:errors="*{address}">
+                주소 오류
+            </div>
+        </div>
+        <div>
+            <label for="point" th:text="#{label.userProfile.point}">포인트</label>
+            <input type="text" id="point" th:field="*{point}"
+                   th:errorclass="field-error"
+                   class="form-control" placeholder="포인트를 입력하세요">
+            <div class="field-error" th:errors="*{point}">
+                포인트 오류
+            </div>
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">회원 가입</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='index.html'"
+                        th:onclick="|location.href='@{/index.html}'|"
+                        type="button" th:text="#{button.cancel}">취소
+                </button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
