@@ -3,6 +3,7 @@ package project.Springplayground.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ public class UserProfile {
     private Long id;
 
     @NotBlank
-    @NotNull
+    @NotNull(message = "공백 입니다.")
     private String name;
 
     @NotNull
