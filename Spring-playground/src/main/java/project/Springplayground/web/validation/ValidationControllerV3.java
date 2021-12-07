@@ -46,7 +46,7 @@ public class ValidationControllerV3 {
         }
         //성공 로직
         userProfileRepository.save(userProfile);
-        return "/validation/v3/User";
+        return "redirect:/validation/v3/searchUser";
     }
     //회원 수정
     @GetMapping("/{id}/edit")
