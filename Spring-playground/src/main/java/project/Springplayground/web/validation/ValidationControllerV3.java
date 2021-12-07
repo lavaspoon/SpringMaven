@@ -44,12 +44,25 @@ public class ValidationControllerV3 {
             //중요
             return "/validation/v3/joinForm";
         }
-
         //성공 로직
         userProfileRepository.save(userProfile);
         return "/validation/v3/User";
     }
+    //회원 수정
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model){
+        UserProfile userProfile = userProfileRepository.findById(id);
+        model.addAttribute("userProfile", userProfile);
+        return "/validation/v3/User";
+    }
 
+    @PostMapping("/{id}/edit")
+    public String edit(@PathVariable Long id, @ModelAttribute UserProfile userProfile){
+        System.out.println("id = " + id);
+        System.out.println("userProfile = " + userProfile);
+        userProfileRepository.update(id, userProfile);
+        return "redirect:/validation/v3/searchUser";
+    }
     //회원 전체 조회
     @GetMapping("/searchUser")
     public String searchUser(Model model){
@@ -64,5 +77,4 @@ public class ValidationControllerV3 {
         model.addAttribute("item", userProfile);
         return "/validation/v3/userInform";
     }
-
 }

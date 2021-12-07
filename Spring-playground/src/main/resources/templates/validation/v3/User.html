@@ -15,43 +15,33 @@
   <div class="py-5 text-center">
     <h2>유저 상세</h2>
   </div>
-  <div>
-    <label for="name">이름</label>
-    <input type="text" id="name" name="name" class="form-control"
-           value="이름A" th:value="${userProfile.getName()}"
-           readonly>
-  </div>
-  <div>
-    <label for="phone">핸드폰번호</label>
-    <input type="text" id="phone" name="phone" class="form-control"
-           value="000-0000-0000" th:value="${userProfile.getPhone()}"
-           readonly>
-  </div>
-  <div>
-    <label for="address">주소</label>
-    <input type="text" id="address" name="address" class="form-control"
-           value="address" th:value="${userProfile.getAddress()}"
-           readonly>
-  </div>
-  <div>
-    <label for="point">포인트</label>
-    <input type="text" id="point" name="point" class="form-control"
-           value="point" th:value="${userProfile.getPoint()}"
-           readonly>
-  </div>
-  <hr class="my-4">
-  <div class="row">
-    <div class="col">
-      <button class="w-100 btn btn-primary btn-lg"
-              onclick="location.href='editForm.html'"
-              type="button">정보 수정</button>
+  <form action="item.html" th:action th:object="${userProfile}" method="post">
+    <div>
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" class="form-control" value="이름A" th:value="${userProfile.getName()}">
     </div>
-    <div class="col">
-      <button class="w-100 btn btn-secondary btn-lg"
-              onclick="location.href='/index.html'"
-              type="button">목록으로</button>
+    <div>
+      <label for="phone">핸드폰번호</label>
+      <input type="text" id="phone" name="phone" class="form-control" value="000-0000-0000" th:value="${userProfile.getPhone()}">
     </div>
-  </div>
+    <div>
+      <label for="address">주소</label>
+      <input type="text" id="address" name="address" class="form-control" value="address" th:value="${userProfile.getAddress()}">
+    </div>
+    <div>
+      <label for="point">포인트</label>
+      <input type="text" id="point" name="point" class="form-control" value="point" th:value="${userProfile.getPoint()}">
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">저장</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='/index.html'" type="button">목록으로</button>
+      </div>
+    </div>
+  </form>
 </div> <!-- /container -->
 </body>
 </html>
