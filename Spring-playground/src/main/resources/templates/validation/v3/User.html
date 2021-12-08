@@ -3,10 +3,14 @@
 <head>
   <meta charset="utf-8">
   <link
-        href="../../css/bootstrap.min.css" rel="stylesheet">
+          href="../../css/bootstrap.min.css" rel="stylesheet">
   <style>
     .container {
       max-width: 560px;
+    }
+    .field-error {
+      border-color: #dc3545;
+      color : #dc3545;
     }
   </style>
 </head>
@@ -17,20 +21,40 @@
   </div>
   <form action="item.html" th:action th:object="${userProfile}" method="post">
     <div>
-      <label for="name">이름</label>
-      <input type="text" id="name" name="name" class="form-control" value="이름A" th:value="${userProfile.getName()}">
+      <label for="name" th:text="#{label.userProfile.name}">이름</label>
+      <input type="text" id="name" th:field="*{name}"
+             th:errorclass="field-error"
+             class="form-control" placeholder="이름을 입력하세요">
+      <div class="field-error" th:errors="*{name}">
+        이름 오류
+      </div>
     </div>
     <div>
-      <label for="phone">핸드폰번호</label>
-      <input type="text" id="phone" name="phone" class="form-control" value="000-0000-0000" th:value="${userProfile.getPhone()}">
+      <label for="phone" th:text="#{label.userProfile.phone}">핸드폰번호</label>
+      <input type="text" id="phone" th:field="*{phone}"
+             th:errorclass="field-error"
+             class="form-control" placeholder="핸드폰번호를 입력하세요">
+      <div class="field-error" th:errors="*{phone}">
+        핸드폰 오류
+      </div>
     </div>
     <div>
-      <label for="address">주소</label>
-      <input type="text" id="address" name="address" class="form-control" value="address" th:value="${userProfile.getAddress()}">
+      <label for="address" th:text="#{label.userProfile.address}">주소</label>
+      <input type="text" id="address" th:field="*{address}"
+             th:errorclass="field-error"
+             class="form-control" placeholder="주소를 입력하세요">
+      <div class="field-error" th:errors="*{address}">
+        주소 오류
+      </div>
     </div>
     <div>
-      <label for="point">포인트</label>
-      <input type="text" id="point" name="point" class="form-control" value="point" th:value="${userProfile.getPoint()}">
+      <label for="point" th:text="#{label.userProfile.point}">포인트</label>
+      <input type="text" id="point" th:field="*{point}"
+             th:errorclass="field-error"
+             class="form-control" placeholder="포인트를 입력하세요">
+      <div class="field-error" th:errors="*{point}">
+        포인트 오류
+      </div>
     </div>
     <hr class="my-4">
     <div class="row">

@@ -57,9 +57,15 @@ public class ValidationControllerV3 {
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(@PathVariable Long id, @ModelAttribute UserProfile userProfile){
-        System.out.println("id = " + id);
-        System.out.println("userProfile = " + userProfile);
+    public String edit(@PathVariable Long id, @Validated @ModelAttribute UserProfile userProfile, BindingResult bindingResult){
+
+        //검증에 실패하면 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("errors = {}", bindingResult);
+            //중요
+            return "/validation/v3/User";
+        }
+
         userProfileRepository.update(id, userProfile);
         return "redirect:/validation/v3/searchUser";
     }

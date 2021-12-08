@@ -17,9 +17,11 @@ public class UserProfile {
     @NotNull(message = "공백 입니다.")
     private String name;
 
+    @NotBlank
     @NotNull
     private String phone;
 
+    @NotBlank
     @NotNull
     private String address;
 
